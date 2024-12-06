@@ -1,57 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>Simple Component 2</title>
-</head>
-<body>
-<h1>Example #2</h1>
-<div id="app"></div>
-<script>
-  class Component {
-    $target;
-    $state;
-    constructor ($target) {
-      this.$target = $target;
-      this.setup();
-      this.render();
-    }
-    setup () {};
-    template () { return ''; }
-    render () {
-      this.$target.innerHTML = this.template();
-      this.setEvent();
-    }
-    setEvent () {}
-    setState (newState) {
-      this.$state = { ...this.$state, ...newState };
-      this.render();
-    }
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simple Component 2</title>
+  </head>
+  <body>
+    <h1>Example #2</h1>
+    <div id="app"></div>
+    <script>
+      class Component {
+        $target;
+        $state;
+        constructor($target) {
+          // 생성할 때 target DOM 을 넘기면 setup하고 rendering 한다.
+          this.$target = $target;
+          this.setup();
+          this.render();
+        }
+        setup() {}
+        template() {
+          return "";
+        }
+        render() {
+          this.$target.innerHTML = this.template();
+          this.setEvent();
+        }
+        setEvent() {}
 
-  class App extends Component {
-    setup () {
-      this.$state = { items: ['item1', 'item2'] };
-    }
-    template () {
-      const { items } = this.$state;
-      return `
+        setState(newState) {
+          // 기존 state 객체 + 신규 state 객체
+          this.$state = { ...this.$state, ...newState };
+          this.render(); // 다음 render 호출
+          // 결과적으로 상태가 변하면 rending이 된다.
+        }
+      }
+
+      class App extends Component {
+        // 초기 세팅, template, event는 component마다 각자 지정할 수 있다.
+        setup() {
+          this.$state = { items: ["item1", "item2"] };
+        }
+        template() {
+          const { items } = this.$state;
+          return `
         <ul>
-          ${items.map(item => `<li>${item}</li>`).join('')}
+          ${items.map((item) => `<li>${item}</li>`).join("")}
         </ul>
         <button>추가</button>
-    `
-    }
+    `;
+        }
 
-    setEvent () {
-      this.$target.querySelector('button').addEventListener('click', () => {
-        const { items } = this.$state;
-        this.setState({ items: [ ...items, `item${items.length + 1}` ] });
-      });
-    }
-  }
+        setEvent() {
+          this.$target.querySelector("button").addEventListener("click", () => {
+            const { items } = this.$state; // 객체 다중 할당, state 객체를 가져와서 items 속성만 꺼내서 할당하고,
+            this.setState({ items: [...items, `item${items.length + 1}`] }); // 다음 item을 추가한다.
+            // 기존에 item1, item2, item3 이 있으면 버튼 클릭 시 item4를 추가한다.
+          });
+        }
+      }
 
-  new App(document.querySelector('#app'));
-</script>
-</body>
+      new App(document.querySelector("#app"));
+    </script>
+  </body>
 </html>

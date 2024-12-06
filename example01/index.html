@@ -1,38 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>Simple Component 1</title>
-</head>
-<body>
-<h1>Example #1</h1>
-<div id="app"></div>
-<script>
-  const $app = document.querySelector('#app');
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simple Component 1</title>
+  </head>
+  <body>
+    <h1>Example #1</h1>
+    <div id="app"></div>
+    <script>
+      const $app = document.querySelector("#app");
 
-  let state = {
-    items: ['item1', 'item2', 'item3', 'item4']
-  }
+      let state = {
+        items: ["item1", "item2", "item3", "item4"],
+      };
 
-  const render = () => {
-    const { items } = state;
-    $app.innerHTML = `
+      const render = () => {
+        const { items } = state;
+        $app.innerHTML = `
       <ul>
-        ${items.map(item => `<li>${item}</li>`).join('')}
+        ${items.map((item) => `<li>${item}</li>`).join("")}
       </ul>
       <button id="append">추가</button>
     `;
-    document.querySelector('#append').addEventListener('click', () => {
-      setState({ items: [ ...items, `item${items.length + 1}` ] })
-    })
-  }
+        document.querySelector("#append").addEventListener("click", () => {
+          setState({ items: [...items, `item${items.length + 1}`] });
+        });
+      };
 
-  const setState = (newState) => {
-    state = { ...state, ...newState };
-    render();
-  }
+      const setState = (newState) => {
+        // state가 변하면 rendering이 된다.
+        state = { ...state, ...newState };
+        render();
+      };
 
-  render();
-</script>
-</body>
+      render();
+    </script>
+  </body>
 </html>

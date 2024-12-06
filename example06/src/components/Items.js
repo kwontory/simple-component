@@ -1,35 +1,39 @@
 import Component from "../core/Component.js";
 
 export default class Items extends Component {
-  setup () {
-    this.$state = { items: ['item1', 'item2'] };
+  setup() {
+    this.$state = { items: ["item1", "item2"] };
   }
-  template () {
+  template() {
     const { items } = this.$state;
     return `
       <ul>
-        ${items.map((item, key) => `
+        ${items
+          .map(
+            (item, key) => `
           <li>
             ${item}
             <button class="deleteBtn" data-index="${key}">삭제</button>
           </li>
-        `).join('')}
+        `
+          )
+          .join("")}
       </ul>
       <button class="addBtn">추가</button>
-    `
+    `;
   }
 
-  setEvent () {
-    this.addEvent('click', '.addBtn', ({ target }) => {
+  setEvent() {
+    this.addEvent("click", ".addBtn", ({ target }) => {
+      // ES6의 구조 분해 할당(Destructuring Assignment) const target = event.target과 동일하다. 이벤트가 발생한 요소가 전달된다.
       const { items } = this.$state;
-      this.setState({ items: [ ...items, `item${items.length + 1}` ] });
+      this.setState({ items: [...items, `item${items.length + 1}`] });
     });
 
-    this.addEvent('click', '.deleteBtn', ({ target }) => {
-      const items = [ ...this.$state.items ];
+    this.addEvent("click", ".deleteBtn", ({ target }) => {
+      const items = [...this.$state.items];
       items.splice(target.dataset.index, 1);
       this.setState({ items });
     });
   }
 }
-
